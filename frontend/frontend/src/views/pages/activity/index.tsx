@@ -44,6 +44,7 @@ const PageActivity = () => {
         const provider = new ethers.providers.Web3Provider((window as any).ethereum)
         const contract = new ethers.Contract(myNFTAddress, myNFTABI, provider.getSigner())
         let tokenId: any = await contract.mintNFT(account, data);
+        //save minted result to the DB
     }
 
     useEffect(() => {}, [userInfo]);
