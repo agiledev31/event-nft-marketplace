@@ -1,0 +1,134 @@
+.delete-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: 1px solid #887bff;
+  background-color: #14142f;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  z-index: 1000;
+  .delete__btn {
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    font-weight: bold;
+  }
+}
+.text-error {
+  color: darkred;
+}
+
+.header__profile-menu a {
+  color: #bdbdbd !important;
+  cursor: pointer;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+  font-size: 12px;
+  height: 35px;
+}
+
+.btn_new_blog {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.main__author {
+  background-position-x: center;
+  background-position-y: center;
+  background-size: cover;
+  background-repeat-x: no-repeat;
+  background-repeat-y: no-repeat;
+}
+
+.share__link {
+  margin-right: 10px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+.share__link--te {
+  background-color: #0088cc;
+}
+
+.share__link--discord {
+  background-color: #8c9eff;
+}
+
+.share__link--in {
+  background-color: #bc298d;
+}
+
+.share__link--tiktok {
+  background-color: #c01900;
+}
+
+.greenpass {
+  margin-left: 15px;
+}
+
+.greenpass-text {
+  display: inline-block;
+  vertical-align: middle;
+  color: #abd3b4;
+  font-size: 13px;
+  line-height: 17px;
+}
+
+.event__clock {
+  font-size: 18px;
+  line-height: 100%;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.text-editor-wrapper {
+  width: 100%;
+
+  & *::selection {
+    background: #3390ff;
+    color: white;
+  }
+
+  & > div {
+    height: 400px;
+    overflow-y: auto;
+  }
+}
+
+.article__content img {
+  width: inherit;
+  max-width: 100%;
+}
+
+.article__content {
+  .img-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 60px;
+
+    .article__category {
+      position: absolute;
+    }
+
+    .article__date {
+      position: absolute;
+      right: 0;
+    }
+  }
+}
+
+.card__delete_btn {
+  position: absolute !important;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+}

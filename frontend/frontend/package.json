@@ -1,0 +1,65 @@
+{
+  "name": "ui",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@paypal/react-paypal-js": "^7.5.0",
+    "ag-grid-community": "^26.2.1",
+    "ag-grid-react": "^26.2.0",
+    "axios": "^0.24.0",
+    "cra-template-typescript": "1.1.2",
+    "javascript-time-ago": "^2.3.10",
+    "moment": "^2.29.1",
+    "node-sass": "^6.0.0",
+    "query-string": "^7.0.1",
+    "react": "^17.0.2",
+    "react-cookie": "^4.1.1",
+    "react-countdown": "^2.3.2",
+    "react-date-object": "^2.1.5",
+    "react-dom": "^17.0.2",
+    "react-owl-carousel": "^2.3.3",
+    "react-router-dom": "^6.0.2",
+    "react-rte": "^0.16.4",
+    "react-scripts": "4.0.3",
+    "react-time-ago": "^7.1.7",
+    "react-toast-notifications": "^2.5.1",
+    "styled-components": "^5.3.3",
+    "typescript": "^4.5.2",
+    "web-vitals": "^2.1.2",
+    "@web3-react/core": "^6.1.9",
+    "@web3-react/injected-connector": "^6.0.7",
+    "ethers": "^5.5.3",
+    "web3": "^1.6.1"
+  },
+  "scripts": {
+    "start": "set PORT=3030 && react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "@types/react-rte": "^0.16.3",
+    "@types/styled-components": "^5.1.17"
+  }
+}
