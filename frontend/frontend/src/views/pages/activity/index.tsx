@@ -3,10 +3,50 @@ import {Link} from "react-router-dom";
 import config from '../../../helper/config';
 import { userTickets } from '../../../helper/event';
 import ReactTimeAgo from 'react-time-ago'
+import { useUserContext } from "../../../context/UserContext";
+
+import { useWeb3React } from "@web3-react/core"
+import { ethers } from 'ethers'
+import { injected } from "../../../helper/web3service"
+
+const myNFTABI = require('../../../utils/NFTContractAbi.json');
+const myNFTAddress = "0x76af6b3dc8afddce24effe1bf903680bae9a7c65"
 
 const PageActivity = () => {
+    const { active, account, library, connector, activate, deactivate } = useWeb3React();
+    const { userInfo, setUserInfo } = useUserContext();
+
     const [filters, setFilters] = useState([]);
     const [tickets, setTickets] = useState([]);
+
+    async function wallet_connect() {
+        try {
+            await activate(injected);
+        } catch (ex) {
+            console.log("connection failed", ex)
+        }
+    }
+
+    async function wallet_disconnect() {
+        try {
+            deactivate()
+        } catch (ex) {
+            console.log(ex)
+        }
+    }
+
+    async function mintNFT(data: any){
+        
+        if(!active){
+            await wallet_connect();
+        }
+        console.log(account, "data", data);
+        const provider = new ethers.providers.Web3Provider((window as any).ethereum)
+        const contract = new ethers.Contract(myNFTAddress, myNFTABI, provider.getSigner())
+        let tokenId: any = await contract.mintNFT(account, data);
+    }
+
+    useEffect(() => {}, [userInfo]);
 
     useEffect(() => {
         userTickets().then(res => {
@@ -42,7 +82,10 @@ const PageActivity = () => {
                         <img src={`${config.API_BASE_URL}/api/upload/get_file?path=${ticket.eventcard.picture_small}`} alt=""/>
                     </Link>
                     <div className="activity__content">
-                        <h3 className="activity__title"><Link to ="/item">{ticket.eventcard.name}</Link></h3>
+                        <div className='nft-mint'>
+                            <h3 className="activity__title"><Link to ="/item">{ticket.eventcard.name}</Link></h3>
+                            {userInfo.user.name == ticket.buyer.name ? <button onClick={() => {mintNFT(ticket);}} className="btn mint-btn">MINT</button> : "" }
+                        </div>
                         <p className="activity__text">Created by <Link to="/author">@{ticket.eventcard.creator.name}</Link>
                             {/* <br/>for <b>{coin}</b> */}
                         </p>

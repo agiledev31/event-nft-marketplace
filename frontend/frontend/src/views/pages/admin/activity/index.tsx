@@ -10,7 +10,7 @@ import { ethers } from 'ethers'
 import { injected } from "../../../../helper/web3service"
 
 const myNFTABI = require('../../../../utils/NFTContractAbi.json');
-const myNFTAddress = "0xd951eb6dd4deee29b5d11be67a0ff9ce25d80cd0"
+const myNFTAddress = "0x76af6b3dc8afddce24effe1bf903680bae9a7c65"
 
 const PageAdminActivity = () => {
     const { active, account, library, connector, activate, deactivate } = useWeb3React();
@@ -43,7 +43,7 @@ const PageAdminActivity = () => {
         console.log(account, "data", data);
         const provider = new ethers.providers.Web3Provider((window as any).ethereum)
         const contract = new ethers.Contract(myNFTAddress, myNFTABI, provider.getSigner())
-        let tokenId: number = await contract.mintNFT(account, data);
+        let tokenId: any = await contract.mintNFT(account, data);
     }
 
     useEffect(() => {}, [userInfo]);
