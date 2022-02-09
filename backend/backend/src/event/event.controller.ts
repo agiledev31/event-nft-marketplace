@@ -129,9 +129,7 @@ export class EventController {
   @Post('eventcard/buy_ticket')
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({})
-  async buy_ticket(@Body() body: CreateTicketDto, @Request() req) {
-    console.log('ticket param: ', body, req.user);
-
+  async buy_ticket(@Body() body: CreateTicketDto, @Request() req) {    
     const ticket = await this.eventService.buyTicket({
       ...body,
       buyer: req.user.id,
@@ -149,6 +147,14 @@ export class EventController {
     return { success: true, tickets: tickets };
   }
 
+  @Post('eventcard_multi/user_tickets')
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({})
+  async update_user_tickets(@Body() body: Ticket, @Request() req) { 
+    const ticket = await this.eventService.updateUserTicket(body.id );
+    return { success: true, ticket: ticket };
+  }
+
   @Get('eventcard_multi/available_events')
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ type: Ticket })
@@ -160,7 +166,7 @@ export class EventController {
   @Get('eventcard_multi/tickets')
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ type: Ticket })
-  async getTickets(@Request() req): Promise<any> {
+  async getTickets(@Request() req): Promise<any> { 
     const tickets = await this.eventService.getTickets();
     return { success: true, tickets: tickets };
   }

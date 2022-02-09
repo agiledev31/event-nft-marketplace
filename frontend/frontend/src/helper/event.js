@@ -106,6 +106,20 @@ const userTickets = (data) => {
   });
 };
 
+const updateUserTickets = (data) => {
+  return new Promise((resolve, reject) => {
+    api
+      .post("/api/event/eventcard_multi/user_tickets", {id: data.id })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+};
+
 const getAvailableEvents = () => {
   return new Promise((resolve, reject) => {
     api
@@ -141,6 +155,7 @@ export {
   getLatestEventCards,
   buyTicket,
   userTickets,
+  updateUserTickets,
   allTickets,
   getAvailableEvents,
   deleteEventCardById,

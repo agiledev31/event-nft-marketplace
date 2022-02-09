@@ -53,6 +53,16 @@ let EventService = class EventService {
     async remove(id) {
         await this.eventcardRepository.delete(id);
     }
+    async updateUserTicket(id) {
+        const ticket = await this.ticketRepository.findOne({
+            where: { id: id },
+        });
+        ticket.is_minted = true;
+        await this.ticketRepository.save(ticket);
+        return this.ticketRepository.findOne({
+            where: { id: id },
+        });
+    }
     async buyTicket(payload) {
         const ticket = (0, repository_util_1.getFromDto)(payload, new ticket_entity_1.Ticket());
         await this.ticketRepository.save(ticket);
@@ -68,7 +78,7 @@ let EventService = class EventService {
     async userTickets(userid) {
         const tickets = this.ticketRepository.find({
             where: { buyer: userid },
-            relations: ['eventcard', 'eventcard.creator'],
+            relations: ['buyer', 'eventcard', 'eventcard.creator'],
         });
         return tickets;
     }

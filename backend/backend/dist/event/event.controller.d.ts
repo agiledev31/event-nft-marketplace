@@ -27,6 +27,10 @@ export declare class EventController {
         ticket: Ticket;
     }>;
     user_tickets(req: any): Promise<any>;
+    update_user_tickets(body: Ticket, req: any): Promise<{
+        success: boolean;
+        ticket: Ticket;
+    }>;
     available_events(req: any): Promise<any>;
     getTickets(req: any): Promise<any>;
 }

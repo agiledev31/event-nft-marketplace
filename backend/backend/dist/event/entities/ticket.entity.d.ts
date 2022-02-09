@@ -6,4 +6,5 @@ export declare class Ticket extends SoftDelete {
     wallet_address: string;
     buyer: User;
     pay_order_id: string;
+    is_minted: boolean;
 }

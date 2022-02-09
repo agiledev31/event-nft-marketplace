@@ -96,7 +96,7 @@ const PageEventCard = () => {
 
     const handleBuyTicket = () => {
         if (eventCard.total_tickets == eventCard.buy_count) {
-            addToast('Already sold full amount of tickets', {appearance: 'error', autoDismiss: true});   
+            addToast('Already sold full amount of tickets', {appearance: 'error', autoDismiss: true});
             return;
         }
         console.log('buy ticket');

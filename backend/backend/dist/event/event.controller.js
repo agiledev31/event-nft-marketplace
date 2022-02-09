@@ -84,7 +84,6 @@ let EventController = class EventController {
         }
     }
     async buy_ticket(body, req) {
-        console.log('ticket param: ', body, req.user);
         const ticket = await this.eventService.buyTicket(Object.assign(Object.assign({}, body), { buyer: req.user.id }));
         return { success: true, ticket: ticket };
     }
@@ -92,6 +91,10 @@ let EventController = class EventController {
         const userid = req.user.id;
         const tickets = await this.eventService.userTickets(userid);
         return { success: true, tickets: tickets };
+    }
+    async update_user_tickets(body, req) {
+        const ticket = await this.eventService.updateUserTicket(body.id);
+        return { success: true, ticket: ticket };
     }
     async available_events(req) {
         const events = await this.eventService.availableEvents();
@@ -167,6 +170,16 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], EventController.prototype, "user_tickets", null);
+__decorate([
+    (0, common_1.Post)('eventcard_multi/user_tickets'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiOkResponse)({}),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [ticket_entity_1.Ticket, Object]),
+    __metadata("design:returntype", Promise)
+], EventController.prototype, "update_user_tickets", null);
 __decorate([
     (0, common_1.Get)('eventcard_multi/available_events'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),

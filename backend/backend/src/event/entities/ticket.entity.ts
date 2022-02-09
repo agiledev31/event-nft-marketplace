@@ -19,4 +19,7 @@ export class Ticket extends SoftDelete {
 
     @Column()
     pay_order_id: string;
+
+    @Column({ default: false })
+    is_minted: boolean;
 }

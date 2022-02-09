@@ -10,6 +10,7 @@ export declare class EventService {
     getLatestEventCards(): Promise<EventCard[]>;
     findById(id: string): Promise<EventCard>;
     remove(id: string): Promise<void>;
+    updateUserTicket(id: string): Promise<Ticket>;
     buyTicket(payload: any): Promise<Ticket>;
     userTickets(userid: any): Promise<Ticket[]>;
     availableEvents(): Promise<EventCard[]>;

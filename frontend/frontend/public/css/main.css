@@ -5656,9 +5656,20 @@ body::-webkit-scrollbar-thumb {
 }
 .mint-btn {
   margin-bottom: 15px;
-  padding: 0px 25px;
+  width: -webkit-fill-available;
+  padding: 0px 5px;
   color: white;
   background: #702FA0;
   border: 1px solid white;
   border-radius: 5px
+}
+
+.minted {
+  margin-bottom: 15px;
+  width: -webkit-fill-available;
+  padding: 1px 5px;
+  color: white;
+  background: #534f77;
+  border-radius: 5px;
+  text-align: center;
 }

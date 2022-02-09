@@ -36,6 +36,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Ticket.prototype, "pay_order_id", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: false }),
+    __metadata("design:type", Boolean)
+], Ticket.prototype, "is_minted", void 0);
 Ticket = __decorate([
     (0, typeorm_1.Entity)('tickets')
 ], Ticket);

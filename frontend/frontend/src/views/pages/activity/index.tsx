@@ -1,29 +1,40 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import config from '../../../helper/config';
-import { userTickets } from '../../../helper/event';
+import { userTickets, updateUserTickets } from '../../../helper/event';
 import ReactTimeAgo from 'react-time-ago'
 import { useUserContext } from "../../../context/UserContext";
 
-import { useWeb3React } from "@web3-react/core"
-import { ethers } from 'ethers'
-import { injected } from "../../../helper/web3service"
+import { useWeb3React } from "@web3-react/core";
+import { ethers } from 'ethers';
+import { injected } from "../../../helper/web3service";
 
-const myNFTABI = require('../../../utils/NFTContractAbi.json');
-const myNFTAddress = "0x76af6b3dc8afddce24effe1bf903680bae9a7c65"
+import {myNFTAddress_testnet, myNFTAddress_mainnet, myNFTABI} from "../../../utils/nft_contract";
+
+import { useAppContext } from '../../../context/AppContext';
+import { useToasts } from "react-toast-notifications";
+// import {ipfsGet, ipfsUpload} from '@tatumio/tatum';
+
+
 
 const PageActivity = () => {
-    const { active, account, library, connector, activate, deactivate } = useWeb3React();
+    const { active, account, library, connector, chainId, activate, deactivate, error } = useWeb3React();
     const { userInfo, setUserInfo } = useUserContext();
+    const {setLoading} = useAppContext();
+    const { addToast } = useToasts();
+    const navigate = useNavigate();
 
     const [filters, setFilters] = useState([]);
     const [tickets, setTickets] = useState([]);
 
     async function wallet_connect() {
         try {
-            await activate(injected);
+            let aaa = await activate(injected);
+            console.log("aaa", aaa)
         } catch (ex) {
-            console.log("connection failed", ex)
+            console.log("connection failed", ex);
+            addToast('Connection failed!', {appearance: 'error', autoDismiss: true});
+            // navigate("/activity");
         }
     }
 
@@ -35,17 +46,45 @@ const PageActivity = () => {
         }
     }
 
-    async function mintNFT(data: any){
+    async function mintNFT(data: any){     
         
         if(!active){
             await wallet_connect();
         }
-        console.log(account, "data", data);
-        const provider = new ethers.providers.Web3Provider((window as any).ethereum)
-        const contract = new ethers.Contract(myNFTAddress, myNFTABI, provider.getSigner())
-        let tokenId: any = await contract.mintNFT(account, data);
-        //save minted result to the DB
+        console.log(account, "data", data, "connector: ", connector);
+        if(chainId !== 56 && chainId !== 97){
+            addToast('Please change the network ', {appearance: 'warning', autoDismiss: true});
+        }else{
+            if(account){
+                addToast('Please wait ... It might takes some time', {appearance: 'warning', autoDismiss: true});
+                // const ipfsHash_img = await ipfsUpload('logo.jpg', 'fileName');
+
+                const provider = new ethers.providers.Web3Provider((window as any).ethereum)
+                const contract = new ethers.Contract(myNFTAddress_mainnet, myNFTABI, provider.getSigner())
+                await contract.mintNFT(account, data.eventcard.picture_large);
+
+                contract.on('Minted', (tokenId, tokenURI) => {
+                    console.log('First parameter :', tokenId);
+                    console.log('Second parameter :', tokenURI);
+                    updateUserTickets(data ).then(res => {
+                        if (res.success) { 
+                            addToast('Successfully Minted', {appearance: 'success', autoDismiss: true});
+                            userTickets().then(res => {
+                                if (res.success) {
+                                    setTickets(res.tickets);
+                                }
+                            })
+                        }else{
+                            addToast('Failed save database', {appearance: 'error', autoDismiss: true});
+                        }
+                    });
+                });
+                
+            }
+        }
+        navigate("/activity");
     }
+    
 
     useEffect(() => {}, [userInfo]);
 
@@ -55,7 +94,7 @@ const PageActivity = () => {
                 setTickets(res.tickets);
             }
         })
-    }, [])
+    }, []);
 
     const onclearAll = (e: React.MouseEvent<HTMLButtonElement>): void => {
         // @ts-ignore
@@ -85,7 +124,7 @@ const PageActivity = () => {
                     <div className="activity__content">
                         <div className='nft-mint'>
                             <h3 className="activity__title"><Link to ="/item">{ticket.eventcard.name}</Link></h3>
-                            {userInfo.user.name == ticket.buyer.name ? <button onClick={() => {mintNFT(ticket);}} className="btn mint-btn">MINT</button> : "" }
+                            {userInfo.user.name == ticket.buyer.name && !ticket.is_minted ? <button onClick={() => {mintNFT(ticket);}} className="btn mint-btn" >Claim NFT</button> : <label className="minted">Minted</label> }
                         </div>
                         <p className="activity__text">Created by <Link to="/author">@{ticket.eventcard.creator.name}</Link>
                             {/* <br/>for <b>{coin}</b> */}
